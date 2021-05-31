@@ -1,0 +1,10 @@
+Parameter:
+- serverName = '127.0.0.1'
+- serverPort = 12000
+- pubName = '114.114.114.114'
+- pubPort = 53
+- cacheTTL = 3600  # one hour
+
+# Environment
+- python 3.7.4
+- DiG 9.11.3-1ubuntu1.9-Ubuntu 

@@ -1,0 +1,1 @@
+sudo docker run -it --gpus all youngwilliam/olmp:gpu_python3.6 python3 exp_lenet300100_3.py -d 29 -c $1

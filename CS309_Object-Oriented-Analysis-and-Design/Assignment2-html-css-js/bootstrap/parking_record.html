@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SUSTech Parking Record</title>
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="parking_record.js"></script>
+</head>
+<body onload="initial()">
+<div class="container">
+    <div style="text-align: center;"><h1 class="display-3">SUSTech Parking Record</h1></div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>License Plate Number</th>
+            <th>Entrance Number</th>
+            <th>Date</th>
+            <th>Arrival Time</th>
+            <th>Departure Time</th>
+            <th>Staff Name</th>
+            <th>Staff Number</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="record" style="display: none">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center;">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#flipFlop">
+            Add a Record
+        </button>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Add a record</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="div1">
+                        <form name="form1" class="form-horizontal">
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">License Plate Number: <kbd>粤B</kbd></label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="license_plate_number"/><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Entrance Number: </label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="entrance_number"/><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Date:</label>
+                                <div class="col-xs-9">
+                                    <select id="year" onchange="setMonth()"></select> year
+                                    <select id="month" onchange="setDay()"></select> month
+                                    <select id="day"></select> day<br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Departure Time: </label>
+                                <div class="col-xs-9">
+                                    <select id="dhour"></select>:
+                                    <select id="dminute"></select><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Arrival Time: </label>
+                                <div class="col-xs-9">
+                                    <select id="ahour"></select>:
+                                    <select id="aminute"></select><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Staff Name: </label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="staff_name"/><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Staff Number:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="staff_number"/><br>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: auto">
+                                <label class="col-xs-3 col-form-label mr-2">Status: </label>
+                                <div class="col-xs-9">
+                                    <input name="status" type="radio" value="In"/>In
+                                    <input name="status" type="radio" value="Out"/>Out<br>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" value="Add Record" class="btn btn-success"
+                               onclick="onClickAddRecord()"><br>
+                        <input type="button" value="Close" class="btn btn-scondary" data-dismiss="modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

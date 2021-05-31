@@ -1,0 +1,222 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+% !Mode:: "TeX:UTF-8"
+
+\documentclass[onecolumn,oneside]{SUSTechHomework}
+
+\usepackage{float}
+
+\author{胡玉斌}
+\sid{11712121}
+\title{Assignment4}
+\coursecode{CS323}
+\coursename{Compilers}
+
+\begin{document}
+  \maketitle
+
+  \section{(Simple LR): Consider the following grammar $G$:}
+
+  $$S \rightarrow aB$$
+  $$B \rightarrow S+B~|~\epsilon$$
+
+    \subsection{Construct the $SLR(1)$ parsing table for $G$. Please put down the detailed steps, including
+    the calculation of $LR(0)$ item sets. [20 points]}
+
+    $S' \Rightarrow S,~S \rightarrow aB,~B \rightarrow S+B~|~\epsilon$
+
+    $FIRST(S)=\{a\},~FIRST(B)=\{a, \epsilon\}$
+
+    $FOLLOW(S)=\{+, \$\},~FOLLOW(B)=\{\$, +\}$
+    
+    LR(0) sets:
+    \begin{itemize}
+      \item $S' \rightarrow .S$
+      \item $S' \rightarrow S.$
+      \item $S \rightarrow .aB$
+      \item $S \rightarrow a.B$
+      \item $S \rightarrow aB.$
+      \item $B \rightarrow .S+B$
+      \item $B \rightarrow S.+B$
+      \item $B \rightarrow S+.B$
+      \item $B \rightarrow S+B.$
+      \item $B \rightarrow .$
+    \end{itemize}
+
+    LR(0) collection:
+    \begin{itemize}
+      \item $I_0 = \{S' \rightarrow .S,~S \rightarrow .aB\}$
+      \item $I_1 = GOTO(I_0, S) = \{S' \rightarrow S.\}$
+      \item $I_2 = GOTO(I_0, a) = \{S \rightarrow a.B\}$
+      \item $I_3 = GOTO(I_2, S) = \{B \rightarrow S. + B\}$
+      \item $I_4 = GOTO(I_2, B) = \{S \rightarrow aB.\}$
+      \item $I_5 = GOTO(I_3, +) = \{B \rightarrow S+.B,~B \rightarrow .S+b,~B \rightarrow .,~S \rightarrow .aB\}$
+      \item $I_6 = GOTO(I_5, B) = \{B \rightarrow S+B.\}$
+      \item $GOTO(I_5,S)=I_3$
+      \item $GOTO(I_5,a)=I_2$
+    \end{itemize}
+
+    \begin{table}[H]
+      \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      State & a  & +                          & \$                         & S     & B     \\ \hline
+      $I_0$ & s2 &                            &                            & $I_1$ &       \\ \hline
+      $I_1$ &    &                            &                            & acc   &       \\ \hline
+      $I_2$ & s2 & r $B \rightarrow \epsilon$ & r $B \rightarrow \epsilon$ & $I_3$ & $I_4$ \\ \hline
+      $I_3$ &    & s5                         &                            &       &       \\ \hline
+      $I_4$ &    & r $S \rightarrow aB$       & r $S \rightarrow aB$       &       &       \\ \hline
+      $I_5$ & s2 & r $B \rightarrow \epsilon$ & r $B \rightarrow \epsilon$ & $I_3$ & $I_6$ \\ \hline
+      $I_6$ &    & r $B \rightarrow S+B$      & r $B \rightarrow S+B$      &       &       \\ \hline
+      \end{tabular}
+    \end{table}
+
+    \subsection{Is the grammar $SLR(1)$? [10 points]}
+
+    YES, because there is no conflicts in the parsing table.
+
+    \subsection{Can the $SLR(1)$ parser accept the input string $aaaa+++$? If yes, please list the moves
+    made by the parser; otherwise, state the reason. Before parsing, please resolve conflicts
+    if any. [10 points]}
+
+    \begin{table}[H]
+      \begin{tabular}{|l|l|r|l|}
+      \hline
+      \multicolumn{1}{|c|}{Stack} & \multicolumn{1}{c|}{Symbols} & \multicolumn{1}{c|}{Input} & \multicolumn{1}{c|}{Action} \\ \hline
+      0       & \$       & aaaa+++\$ & s2                         \\ \hline
+      02      & \$a      & aaa+++\$  & s2                         \\ \hline
+      022     & \$aa     & aa+++\$   & s2                         \\ \hline
+      0222    & \$aaa    & a+++\$    & s2                         \\ \hline
+      02222   & \$aaaa   & +++\$     & r $B \rightarrow \epsilon$ \\ \hline
+      022224  & \$aaaaB  & +++\$     & r $B \rightarrow S+B$      \\ \hline
+      02223   & \$aaaS   & +++\$     & s5                         \\ \hline
+      022235  & \$aaaS+  & ++\$      & r $B \rightarrow \epsilon$ \\ \hline
+      0222356 & \$aaaS+B & ++\$      & r $B \rightarrow S+B$      \\ \hline
+      02224   & \$aaaB   & ++\$      & r $S \rightarrow aB$       \\ \hline
+      0223    & \$aaS    & ++\$      & s5                         \\ \hline
+      02235   & \$aaS+   & +\$       & r $B \rightarrow \epsilon$ \\ \hline
+      022356  & \$aaS+B  & +\$       & r $B \rightarrow S+B$      \\ \hline
+      0224    & \$aaB    & +\$       & r $S \rightarrow aB$       \\ \hline
+      023     & \$aS     & +\$       & s5                         \\ \hline
+      0235    & \$aS+    & \$        & r $B \rightarrow \epsilon$ \\ \hline
+      02356   & \$aS+B   & \$        & r $B \rightarrow S+B$      \\ \hline
+      024     & \$aB     & \$        & r $S \rightarrow aB$       \\ \hline
+      01      & \$S      & \$        & acc                        \\ \hline
+      \end{tabular}
+      \end{table}
+
+  \section{(Canonical LR): Consider the grammar $G$ in Exercise 1:}
+
+    \subsection{Construct the $CLR(1)$ parsing table for $G$. Please put down the detailed steps, including the calculation of $LR(1)$ item sets. [20 points]}
+
+    LR(0) collection:
+    \begin{itemize}
+      \item $I_0=\{[S' \rightarrow .S,\$],[S \rightarrow .aB,\$]\}$
+      \item $I_1=GOTO(I_1,S)=\{[S' \rightarrow S.,\$]\}$
+      \item $I_2=GOTO(I_0,a)=\{[S \rightarrow a.B,\$],[B \rightarrow .S+B,\$],[B \rightarrow .,\$],[S \rightarrow .aB,+]\}$
+      \item $I_3=GOTO(I_2,S)=\{[B \rightarrow S.+B,\$]\}$
+      \item $I_4=GOTO(I_2,a)=\{[S \rightarrow a.B,+],[B \rightarrow .S+B,+],[B \rightarrow .,+],[S \rightarrow .aB,+]\}$
+      \item $I_5=GOTO(I_2,B)=\{[S \rightarrow aB.,\$]\}$
+      \item $I_6=GOTO(I_3,+)=\{[B \rightarrow S+.B,\$]\,[B \rightarrow .S+B,\$],[B \rightarrow .,\$],[S \rightarrow .aB,+]\}$
+      \item $I_7=GOTO(I_4,S)=\{[B \rightarrow S.+B,+]\}$
+      \item $GOTO(I_4,a)=I_4$
+      \item $I_8=GOTO(I_4,S)=\{[S \rightarrow aB.,+]\}$
+      \item $GOTO(I_6,S)=I_4$
+      \item $GOTO(I_6,a)=I_4$
+      \item $I_9=GOTO(I_6,B)=\{[B \rightarrow S+B.,\$]\}$
+      \item $I_10=GOTO(I_7,+)=\{[B \rightarrow S+.B,+],[B \rightarrow .S+B,+],[B \rightarrow .,+],[S \rightarrow .aB,+]\}$
+      \item $GOTO(I_10,S)=I_7$
+      \item $GOTO(I_10,a)=I_4$
+      \item $I_11=GOTO(I_10,B)=\{[B \rightarrow S+B.,+]\}$
+    \end{itemize}
+
+    \begin{table}[H]
+      \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      State  & a  & +                          & \$                         & S     & B      \\ \hline
+      $I_0$  & s2 &                            &                            & $I_1$ &        \\ \hline
+      $I_1$  &    &                            & acc                        &       &        \\ \hline
+      $I_2$  & s4 &                            & r $B \rightarrow \epsilon$ & $I_3$ & $I_5$  \\ \hline
+      $I_3$  &    & s6                         &                            &       &        \\ \hline
+      $I_4$  & s4 & r $B \rightarrow \epsilon$ &                            & $I_7$ & $I_8$  \\ \hline
+      $I_5$  &    &                            & r $S \rightarrow aB$       &       &        \\ \hline
+      $I_6$  & s4 &                            & r $S \rightarrow aB$       & $I_3$ & $I_9$  \\ \hline
+      $I_7$  &    & s10                        &                            &       &        \\ \hline
+      $I_8$  &    & r $S \rightarrow aB$       &                            &       &        \\ \hline
+      $I_9$  &    &                            & r $B \rightarrow S+B$      &       &        \\ \hline
+      $I_10$ & s4 & r $S \rightarrow aB$       &                            & $I_7$ & $I_11$ \\ \hline
+      $I_11$ &    & r $B \rightarrow S+B$      &                            &       &        \\ \hline
+      \end{tabular}
+    \end{table}
+
+    \subsection{Can the $CLR(1)$ parser accept the input string $aaaa+++$? If yes, please list the moves made by the parser; otherwise, state the reason. Before parsing, please resolve conflicts if any. [10 points]}
+
+    \begin{table}[H]
+      \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      State  & a  & +                          & \$                         & S     & B      \\ \hline
+      $I_0$  & s2 &                            &                            & $I_1$ &        \\ \hline
+      $I_1$  &    &                            & acc                        &       &        \\ \hline
+      $I_2$  & s4 &                            & r $B \rightarrow \epsilon$ & $I_3$ & $I_5$  \\ \hline
+      $I_3$  &    & s6                         &                            &       &        \\ \hline
+      $I_4$  & s4 & r $B \rightarrow \epsilon$ &                            & $I_7$ & $I_8$  \\ \hline
+      $I_5$  &    &                            & r $S \rightarrow aB$       &       &        \\ \hline
+      $I_6$  & s4 &                            & r $S \rightarrow aB$       & $I_3$ & $I_9$  \\ \hline
+      $I_7$  &    & s10                        &                            &       &        \\ \hline
+      $I_8$  &    & r $S \rightarrow aB$       &                            &       &        \\ \hline
+      $I_9$  &    &                            & r $B \rightarrow S+B$      &       &        \\ \hline
+      $I_10$ & s4 & r $S \rightarrow aB$       &                            & $I_7$ & $I_11$ \\ \hline
+      $I_11$ &    & r $B \rightarrow S+B$      &                            &       &        \\ \hline
+      \end{tabular}
+      \end{table}
+
+  \section{ (Lookahead LR): Consider the grammar $G$ in Exercise 1:}
+
+    \subsection{Construct the $LALR(1)$ parsing table for $G$. Please put down the detailed steps, including the merging of $LR(1)$ item sets. [20 points]}
+
+      From exercise 2m, we can get the LR(1) item sets. But we should merge.
+
+      merge 2\&4, 3\&7, 5\&8, 6\&10, 9\&10
+
+      \begin{table}[]
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        State   & a   & +                          & \$                         & S      & B       \\ \hline
+        $I_0$   & s24 &                            &                            & $I_1$  &         \\ \hline
+        $I_1$   &     &                            & acc                        &        &         \\ \hline
+        $I_24$  & s24 & r $B \rightarrow \epsilon$ & r $B \rightarrow \epsilon$ & $I_37$ & $I_58$  \\ \hline
+        $I_37$  &     & s610                       &                            &        &         \\ \hline
+        $I_58$  &     & r $S \rightarrow aB$       & r $S \rightarrow aB$       &        &         \\ \hline
+        $I_610$ & s24 & r $B \rightarrow \epsilon$ & r $B \rightarrow \epsilon$ & $I_37$ & $I_911$ \\ \hline
+        $I_911$ &     & r $B \rightarrow \epsilon$ & r $B \rightarrow \epsilon$ &        &         \\ \hline
+        \end{tabular}
+      \end{table}
+
+    \subsection{Can the $LALR(1)$ parser accept the input string $aaaa+++$? If yes, please list the moves made by the parser; otherwise, state the reason. Before parsing, please resolve conflicts if any. [10 points]}
+
+    \begin{table}[H]
+      \begin{tabular}{|l|l|r|l|}
+      \hline
+      \multicolumn{1}{|c|}{Stack} & \multicolumn{1}{c|}{Symbols} & \multicolumn{1}{c|}{Input} & \multicolumn{1}{c|}{Action} \\ \hline
+      0               & \$       & aaaa+++\$ & s24                        \\ \hline
+      024             & \$a      & aaa+++\$  & s24                        \\ \hline
+      02424           & \$aa     & aa+++\$   & s24                        \\ \hline
+      0242424         & \$aaa    & a+++\$    & s24                        \\ \hline
+      024242424       & \$aaaa   & +++\$     & r $B \rightarrow \epsilon$ \\ \hline
+      02424242458     & \$aaaaB  & +++\$     & $B \rightarrow S+B$        \\ \hline
+      024242437       & \$aaaS   & +++\$     & s610                       \\ \hline
+      024242437610    & \$aaaS+  & ++\$      & r $B \rightarrow \epsilon$ \\ \hline
+      024242437610911 & \$aaaS+B & ++\$      & $B \rightarrow S+B$        \\ \hline
+      024242458       & \$aaaB   & ++\$      & r $S \rightarrow aB$       \\ \hline
+      0242437         & \$aaS    & ++\$      & s610                       \\ \hline
+      0242437610      & \$aaS+   & +\$       & r $B \rightarrow \epsilon$ \\ \hline
+      0242437610911   & \$aaS+B  & +\$       & $B \rightarrow S+B$        \\ \hline
+      0242458         & \$aaB    & +\$       & r $S \rightarrow aB$       \\ \hline
+      02437           & \$aS     & +\$       & s10                        \\ \hline
+      02437610        & \$aS+    & \$        & r $B \rightarrow \epsilon$ \\ \hline
+      02437610911     & \$aS+B   & \$        & $B \rightarrow S+B$        \\ \hline
+      058             & \$aB     & \$        & r $S \rightarrow aB$       \\ \hline
+      01              & \$S      & \$        & acc                        \\ \hline
+      \end{tabular}
+    \end{table}
+
+\end{document}

@@ -1,0 +1,49 @@
+2,7c2,7
+< /home/chuang/os_ta/test_case/test_directory/? @ # $&()\|; ‘’“”<>
+< /home/chuang/os_ta/test_case/test_directory/a b
+< /home/chuang/os_ta/test_case/test_directory/d_1
+< /home/chuang/os_ta/test_case/test_directory/d_2
+< /home/chuang/os_ta/test_case/test_directory/\n\t\0
+< /home/chuang/os_ta/test_case/test_directory/\n\t%^&*\0\9$1
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/? @ # $&()\|; ‘’“”<>
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/\n\t%^&*\0\9$1
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/\n\t\0
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/a b
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_2
+10a11,12
+> [\n\t%^&*\0\9$1]
+> 
+12c14
+< /home/chuang/os_ta/test_case/test_directory/a b/z z $ z.txt`
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/a b/z z $ z.txt`
+15,19c17,21
+< /home/chuang/os_ta/test_case/test_directory/d_1/aa
+< /home/chuang/os_ta/test_case/test_directory/d_1/d_1_1
+< /home/chuang/os_ta/test_case/test_directory/d_1/d_1_2
+< /home/chuang/os_ta/test_case/test_directory/d_1/file1
+< /home/chuang/os_ta/test_case/test_directory/d_1/file2
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/aa
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/d_1_1
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/d_1_2
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/file1
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/file2
+22,25c24,25
+< /home/chuang/os_ta/test_case/test_directory/d_2/d_2_2
+< /home/chuang/os_ta/test_case/test_directory/d_2/f_2_2
+< 
+< [\n\t%^&*\0\9$1]
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_2/d_2_2
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_2/f_2_2
+30c30
+< /home/chuang/os_ta/test_case/test_directory/d_1/d_1_1/f_1_1_1
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_1/d_1_1/f_1_1_1
+35c35
+< /home/chuang/os_ta/test_case/test_directory/d_2/d_2_2/f_2_2
+---
+> /Users/eveneko/Documents/Tutorial/SUSTech-Courses/CS302-Operating-System/Report1/test_case/test_directory/d_2/d_2_2/f_2_2

@@ -1,0 +1,38 @@
+[test_directory]
+/home/chuang/os_ta/test_case/test_directory/? @ # $&()\|; ‘’“”<>
+/home/chuang/os_ta/test_case/test_directory/a b
+/home/chuang/os_ta/test_case/test_directory/d_1
+/home/chuang/os_ta/test_case/test_directory/d_2
+/home/chuang/os_ta/test_case/test_directory/\n\t\0
+/home/chuang/os_ta/test_case/test_directory/\n\t%^&*\0\9$1
+
+[? @ # $&()\|; ‘’“”<>]
+
+[a b]
+/home/chuang/os_ta/test_case/test_directory/a b/z z $ z.txt`
+
+[d_1]
+/home/chuang/os_ta/test_case/test_directory/d_1/aa
+/home/chuang/os_ta/test_case/test_directory/d_1/d_1_1
+/home/chuang/os_ta/test_case/test_directory/d_1/d_1_2
+/home/chuang/os_ta/test_case/test_directory/d_1/file1
+/home/chuang/os_ta/test_case/test_directory/d_1/file2
+
+[d_2]
+/home/chuang/os_ta/test_case/test_directory/d_2/d_2_2
+/home/chuang/os_ta/test_case/test_directory/d_2/f_2_2
+
+[\n\t%^&*\0\9$1]
+
+[z z $ z.txt`]
+
+[d_1_1]
+/home/chuang/os_ta/test_case/test_directory/d_1/d_1_1/f_1_1_1
+
+[d_1_2]
+
+[d_2_2]
+/home/chuang/os_ta/test_case/test_directory/d_2/d_2_2/f_2_2
+
+[Directories Count]:9
+[Files Count]:7
